@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/_head') %>
+</head>
+
+<body>
+  <div class="name-modal" id="nameModal">
+    <h2>Your Name?</h2>
+    <form class="name-modal_form" id="nameModalForm" action='/chat-room' method="GET">
+      <input type="hidden" name="room">
+      <input type="text" class="name-modal_input" name="username" placeholder="Enter your name" autocomplete="off"
+        required>
+      <button type="submit" class="name-modal_btn">OK</button>
+    </form>
+  </div>
+
+  <section class="chat-groups">
+    <div class="chat-groups_contain">
+      <!-- Group Card 1 -->
+      <div class="group-card fun-group-card">
+        <div class="group-card_hdr">
+          <img src="/img/fun-group.jpg" class="group-card_img" alt="group image">
+        </div>
+        <div class="group-card_body">
+          <h3 class="group-card_name">Fun Group</h3>
+          <p class="group-card_intro">Here you can have some fun chat with your friends</p>
+          <button class="group-card_join group-join-btn" data-target-group="fun">Join</button>
+        </div>
+      </div>
+      <!-- Group Card 2 -->
+      <div class="group-card gk-group-card">
+        <div class="group-card_hdr">
+          <img src="/img/gk-group.jpg" class="group-card_img" alt="group image">
+        </div>
+        <div class="group-card_body">
+          <h3 class="group-card_name">GK Group</h3>
+          <p class="group-card_intro">Improve your GK by joining this group</p>
+          <button class="group-card_join group-join-btn" data-target-group="gk">Join</button>
+        </div>
+      </div>
+      <!-- Group Card 3 -->
+      <div class="group-card study-group-card">
+        <div class="group-card_hdr">
+          <img src="/img/study-group.jpg" class="group-card_img" alt="group image">
+        </div>
+        <div class="group-card_body">
+          <h3 class="group-card_name">Study Group</h3>
+          <p class="group-card_intro">Studying with friends is always fun so let's study together</p>
+          <button class="group-card_join group-join-btn" data-target-group="study">Join</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="/js/myQuery.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/_head') %>
+</head>
+
+<body>
+  <section class="chat-room">
+    <div class="chat-room_hdr">
+      <div class="chat-room_left">
+        <h3 class="chat-room_name" id="roomName"></h3>
+        <p class="chat-room_active" id="chatRoomActive"></p>
+      </div>
+      <div class="chat-room_right">
+        <a href="/" class="btn-leave">Leave</a>
+        <button class="btn-dots" target="chatRoomSidebar" id="btnDots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="chat-room_body">
+      <div class="sidebar" id="chatRoomSidebar">
+        <h3 class="sidebar_title">Active</h3>
+        <ul class="sidebar_menu" id="activePeopleMenu">
+        </ul>
+      </div>
+
+      <div class="chat-room_msgs" id="messageContainer">
+        <div class="alert-box" id="alertBox"></div>
+        <div class="msg-box" id="msgBox"></div>
+      </div>
+    </div>
+
+    <div class="chat-room_ftr">
+      <form class="send-msg" id="sendMsgForm">
+        <input class="send-msg_inp" type="text" id="sendMsgInp" autocomplete="off" required>
+        <button class="send-msg_btn" type="submit" id="sendMsgBtn">Send</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/myQuery.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+
+</html>
