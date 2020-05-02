@@ -133,10 +133,10 @@ var controller = (function (socket, appCtrl, UICtrl) {
   var DOMElms = UIController.getDOMElms();
 
   // Setting Events On The Client Side
-  const setEventListeners = function () {
+  var setEventListeners = function () {
     DOMElms.btnDots.addEventListener("click", UICtrl.toggleSidebar);
     // Typing event
-    DOMElms.sendMsgInp.addEventListener("input", sendTypingState);
+    DOMElms.sendMsgInp.addEventListener("keydown", sendTypingState());
     // Send Message
     DOMElms.sendMsgForm.addEventListener("submit", sendFormData);
   };
@@ -148,11 +148,31 @@ var controller = (function (socket, appCtrl, UICtrl) {
   socket.on("userTyping", UICtrl.userTyping);
 
   function sendTypingState(e) {
-    socket.emit("typing", function (err) {
-      if (err) reloadBrowser();
-    });
+    var typing = false;
+    var timeout;
 
-    this.removeEventListener("input", sendTypingState);
+    function notTyping() {
+      typing = false;
+      socket.emit("notTyping", function (err) {
+        if (err) reloadBrowser();
+      });
+    }
+
+    return function (e) {
+      if (e.keyCode !== 13) {
+        // Enter = 13
+        if (!typing) {
+          typing = true;
+          socket.emit("typing", function (err) {
+            if (err) reloadBrowser();
+          });
+          timeout = setTimeout(notTyping, 2000);
+        } else {
+          clearTimeout(timeout);
+          timeout = setTimeout(notTyping, 2000);
+        }
+      }
+    };
   }
 
   function sendFormData(e) {
@@ -168,9 +188,6 @@ var controller = (function (socket, appCtrl, UICtrl) {
         DOMElms.sendMsgInp.value = "";
         DOMElms.sendMsgInp.focus();
         DOMElms.sendMSgBtn.removeAttribute("disabled");
-
-        // Once the msg delivered setting the input event again
-        DOMElms.sendMsgInp.addEventListener("input", sendTypingState);
       }
     });
   }
@@ -178,7 +195,6 @@ var controller = (function (socket, appCtrl, UICtrl) {
   // Reloads browser, only invoke this function if server
   // somehow loses its memory data (users data)
   function reloadBrowser() {
-    alert("Something went wrong :( We have to reload this page");
     location.reload();
   }
 

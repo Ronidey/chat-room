@@ -49,6 +49,17 @@ io.on("connection", (socket) => {
       .emit("userTyping", `${user.username} is typing...`);
   });
 
+  // ON NOT TYPING
+  socket.on("notTyping", (cb) => {
+    const user = getUser(socket.id);
+
+    if (!user) {
+      return cb(true);
+    }
+
+    socket.broadcast.to(user.room).emit("roomData", getUsersInRoom(user.room));
+  });
+
   // ON SEND MESSAGE
   socket.on("sendMessage", (msg, cb) => {
     const user = getUser(socket.id);
@@ -56,9 +67,6 @@ io.on("connection", (socket) => {
     if (!user) {
       return cb(true);
     }
-
-    // Once the msg is delivered remove "<user> typing..." and show "<num> active"
-    socket.broadcast.to(user.room).emit("roomData", getUsersInRoom(user.room));
 
     io.to(user.room).emit("message", {
       username: user.username,
